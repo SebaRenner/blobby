@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blobby.Math", "Blobby.Math\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blobby.Core", "Blobby.Core\Blobby.Core.csproj", "{8FEBAEE3-4F65-458C-A18B-9427BE71308E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blobby.Graphics", "Blobby.Graphics\Blobby.Graphics.csproj", "{86710DC1-7534-4F2E-A28D-6C62BAD6D6B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8FEBAEE3-4F65-458C-A18B-9427BE71308E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FEBAEE3-4F65-458C-A18B-9427BE71308E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FEBAEE3-4F65-458C-A18B-9427BE71308E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86710DC1-7534-4F2E-A28D-6C62BAD6D6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86710DC1-7534-4F2E-A28D-6C62BAD6D6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86710DC1-7534-4F2E-A28D-6C62BAD6D6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86710DC1-7534-4F2E-A28D-6C62BAD6D6B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
