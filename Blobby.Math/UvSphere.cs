@@ -8,6 +8,10 @@ public class UvSphere
 
     public int[] Indices { get; }
 
+    public int VertexCount => Vertices.Length;
+
+    public int TriangleCount => Indices.Length / 3;
+
     private UvSphere(Vec3D[] vertices, int[] indices)
     {
         Vertices = vertices;
@@ -29,19 +33,19 @@ public class UvSphere
     {
         for (int lat = 0; lat <= numLatitudes; lat++)
         {
-            float theta = (float)(lat * PI / numLatitudes);
-            float sinTheta = MathF.Sin(theta);
-            float cosTheta = MathF.Cos(theta);
+            var theta = (float)(lat * PI / numLatitudes);
+            var sinTheta = MathF.Sin(theta);
+            var cosTheta = MathF.Cos(theta);
 
             for (int lon = 0; lon <= numLongitudes; lon++)
             {
-                float phi = (float)(lon * 2 * PI / numLongitudes);
-                float sinPhi = MathF.Sin(phi);
-                float cosPhi = MathF.Cos(phi);
+                var phi = (float)(lon * 2 * PI / numLongitudes);
+                var sinPhi = MathF.Sin(phi);
+                var cosPhi = MathF.Cos(phi);
 
-                float x = radius * sinTheta * cosPhi;
-                float y = radius * cosTheta;
-                float z = radius * sinTheta * sinPhi;
+                var x = radius * sinTheta * cosPhi;
+                var y = radius * cosTheta;
+                var z = radius * sinTheta * sinPhi;
 
                 yield return new Vec3D(x, y, z);
             }
