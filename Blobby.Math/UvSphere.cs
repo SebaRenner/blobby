@@ -4,9 +4,9 @@ public class UvSphere
 {
     private const double PI = System.Math.PI;
 
-    public IEnumerable<Vec3D> Vertices { get; }
+    public Vec3D[] Vertices { get; }
 
-    private UvSphere(IEnumerable<Vec3D> vertices)
+    private UvSphere(Vec3D[] vertices)
     {
         Vertices = vertices;
     }
@@ -21,13 +21,12 @@ public class UvSphere
         for (int lat = 0; lat <= numLatitudes; lat++)
         {
             float theta = (float)(lat * PI / numLatitudes);
+            float sinTheta = MathF.Sin(theta);
+            float cosTheta = MathF.Cos(theta);
 
             for (int lon = 0; lon <= numLongitudes; lon++)
             {
                 float phi = (float)(lon * 2 * PI / numLongitudes);
-
-                float sinTheta = MathF.Sin(theta);
-                float cosTheta = MathF.Cos(theta);
                 float sinPhi = MathF.Sin(phi);
                 float cosPhi = MathF.Cos(phi);
 
@@ -39,6 +38,6 @@ public class UvSphere
             }
         }
 
-        return new UvSphere(vertices);
+        return new UvSphere(vertices.ToArray());
     }
 }
