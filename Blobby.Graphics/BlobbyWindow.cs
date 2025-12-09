@@ -25,10 +25,11 @@ public class BlobbyWindow
         while (!Raylib.WindowShouldClose())
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.Black);
+            Raylib.ClearBackground(Color.Green);
 
             Raylib.BeginMode3D(camera);
-            Raylib.DrawMesh(mesh, material, Matrix4x4.Identity);
+
+            Raylib.DrawMesh(mesh, material, Raymath.MatrixIdentity());
             Raylib.EndMode3D();
 
             Raylib.EndDrawing();
@@ -41,9 +42,9 @@ public class BlobbyWindow
     private Camera3D SetupCamera()
     {
         var camera = new Camera3D();
-        camera.Position = new System.Numerics.Vector3(0, 0, 5);
-        camera.Target = new System.Numerics.Vector3(0, 0, 0);
-        camera.Up = new System.Numerics.Vector3(0, 1, 0);
+        camera.Position = new Vector3(3, 2, 5);
+        camera.Target = new Vector3(0, 0, 0);
+        camera.Up = new Vector3(0, 1, 0);
         camera.FovY = 45.0f;
         camera.Projection = CameraProjection.Perspective;
 

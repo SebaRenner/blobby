@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Numerics;
+using System.Runtime.InteropServices;
 
 using Blobby.Math;
 
@@ -21,6 +22,17 @@ public static class MeshConverter
             mesh.Vertices[i * 3 + 0] = sphere.Vertices[i].X;
             mesh.Vertices[i * 3 + 1] = sphere.Vertices[i].Y;
             mesh.Vertices[i * 3 + 2] = sphere.Vertices[i].Z;
+        }
+
+        mesh.Normals = (float*)Marshal.AllocHGlobal(sphere.VertexCount * 3 * sizeof(float));
+        for (int i = 0; i < sphere.VertexCount; i++)
+        {
+            var v = sphere.Vertices[i];
+            var n = Vector3.Normalize(new Vector3(v.X, v.Y, v.Z));
+
+            mesh.Normals[i * 3 + 0] = n.X;
+            mesh.Normals[i * 3 + 1] = n.Y;
+            mesh.Normals[i * 3 + 2] = n.Z;
         }
 
         mesh.Indices = (ushort*)Marshal.AllocHGlobal(sphere.Indices.Length * sizeof(ushort));
