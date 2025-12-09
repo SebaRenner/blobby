@@ -25,13 +25,13 @@ public class BlobbyWindow
         while (!Raylib.WindowShouldClose())
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.Green);
-
+            Raylib.ClearBackground(Color.RayWhite);
             Raylib.BeginMode3D(camera);
 
             Raylib.DrawMesh(mesh, material, Raymath.MatrixIdentity());
-            Raylib.EndMode3D();
+            DrawMeshWireframe(mesh, Color.Black);
 
+            Raylib.EndMode3D();
             Raylib.EndDrawing();
         }
 
@@ -49,5 +49,35 @@ public class BlobbyWindow
         camera.Projection = CameraProjection.Perspective;
 
         return camera;
+    }
+
+    private unsafe void DrawMeshWireframe(Mesh mesh, Color color)
+    {
+        for (int i = 0; i < mesh.TriangleCount; i++)
+        {
+            int idx0 = mesh.Indices[i * 3 + 0];
+            int idx1 = mesh.Indices[i * 3 + 1];
+            int idx2 = mesh.Indices[i * 3 + 2];
+
+            Vector3 v0 = new Vector3(
+                mesh.Vertices[idx0 * 3 + 0],
+                mesh.Vertices[idx0 * 3 + 1],
+                mesh.Vertices[idx0 * 3 + 2]
+            );
+            Vector3 v1 = new Vector3(
+                mesh.Vertices[idx1 * 3 + 0],
+                mesh.Vertices[idx1 * 3 + 1],
+                mesh.Vertices[idx1 * 3 + 2]
+            );
+            Vector3 v2 = new Vector3(
+                mesh.Vertices[idx2 * 3 + 0],
+                mesh.Vertices[idx2 * 3 + 1],
+                mesh.Vertices[idx2 * 3 + 2]
+            );
+
+            Raylib.DrawLine3D(v0, v1, color);
+            Raylib.DrawLine3D(v1, v2, color);
+            Raylib.DrawLine3D(v2, v0, color);
+        }
     }
 }

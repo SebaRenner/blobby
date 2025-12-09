@@ -1,3 +1,3 @@
 ﻿using Blobby.Graphics;
 
-var gameWindow = new BlobbyWindow(64, 800, 600);
+var gameWindow = new BlobbyWindow(24, 800, 600);
