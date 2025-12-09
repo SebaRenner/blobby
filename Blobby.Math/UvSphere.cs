@@ -6,18 +6,27 @@ public class UvSphere
 
     public Vec3D[] Vertices { get; }
 
-    private UvSphere(Vec3D[] vertices)
+    public int[] Indices { get; }
+
+    private UvSphere(Vec3D[] vertices, int[] indices)
     {
         Vertices = vertices;
+        Indices = indices;
     }
 
     public static UvSphere Create(int detail, float radius = 1f)
     {
-        int numLatitudes = detail;
-        int numLongitudes = detail * 2;
+        var numLatitudes = detail;
+        var numLongitudes = detail * 2;
 
-        List<Vec3D> vertices = new();
+        var vertices = CreateVertices(numLatitudes, numLongitudes, radius);
+        var indices = CreateIndices(numLatitudes, numLongitudes);
 
+        return new UvSphere(vertices.ToArray(), indices);
+    }
+
+    private static IEnumerable<Vec3D> CreateVertices(int numLatitudes, int numLongitudes, float radius)
+    {
         for (int lat = 0; lat <= numLatitudes; lat++)
         {
             float theta = (float)(lat * PI / numLatitudes);
@@ -34,10 +43,36 @@ public class UvSphere
                 float y = radius * cosTheta;
                 float z = radius * sinTheta * sinPhi;
 
-                vertices.Add(new Vec3D(x, y, z));
+                yield return new Vec3D(x, y, z);
+            }
+        }
+    }
+
+    private static int[] CreateIndices(int numLatitudes, int numLongitudes)
+    {
+        var numQuads = numLatitudes * numLongitudes;
+        var indices = new int[numQuads * 6]; // 1 quad = 2 triangles = 6 indices
+
+        var indexPtr = 0;
+        for (var lat = 0; lat < numLatitudes; lat++)
+        {
+            for (var lon = 0; lon < numLongitudes; lon++)
+            {
+                var current = lat * (numLongitudes + 1) + lon;
+                var next = current + numLongitudes + 1;
+
+                // First triangle (top-left, bottom-left, bottom-right)
+                indices[indexPtr++] = current;
+                indices[indexPtr++] = next;
+                indices[indexPtr++] = next + 1;
+
+                // Second triangle (top-left, bottom-right, top-right)
+                indices[indexPtr++] = current;
+                indices[indexPtr++] = next + 1;
+                indices[indexPtr++] = current + 1;
             }
         }
 
-        return new UvSphere(vertices.ToArray());
+        return indices;
     }
 }
