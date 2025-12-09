@@ -1,6 +1,3 @@
 ﻿using Blobby.Graphics;
-using Blobby.Math;
 
-var blobby = UvSphere.Create(50, 2.0f);
-
-var gameWindow = new BlobbyWindow(800, 600);
+var gameWindow = new BlobbyWindow(50, 800, 600);

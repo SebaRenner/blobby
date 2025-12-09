@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blobby.Graphics\Blobby.Graphics.csproj" />
-    <ProjectReference Include="..\Blobby.Math\Blobby.Math.csproj" />
   </ItemGroup>
 
 </Project>
