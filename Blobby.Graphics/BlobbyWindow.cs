@@ -11,6 +11,7 @@ public class BlobbyWindow
     public BlobbyWindow(int detail, int windowWidth, int windowHeight, int fps = 30)
     {
         var blobby = UvSphere.Create(detail, 1.0f);
+        var noise = 0.3f;
 
         Raylib.InitWindow(windowWidth, windowHeight, "Blobby");
         Raylib.SetTargetFPS(fps);
@@ -24,12 +25,15 @@ public class BlobbyWindow
 
         while (!Raylib.WindowShouldClose())
         {
+            blobby.ApplyRandomNoise(noise);
+            UpdateMeshVertices(ref mesh, blobby);
+
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.RayWhite);
+            Raylib.ClearBackground(Color.Black);
             Raylib.BeginMode3D(camera);
 
             Raylib.DrawMesh(mesh, material, Raymath.MatrixIdentity());
-            DrawMeshWireframe(mesh, Color.Black);
+            //DrawMeshWireframe(mesh, Color.Black);
 
             Raylib.EndMode3D();
             Raylib.EndDrawing();
@@ -49,6 +53,19 @@ public class BlobbyWindow
         camera.Projection = CameraProjection.Perspective;
 
         return camera;
+    }
+
+    private unsafe void UpdateMeshVertices(ref Mesh mesh, UvSphere sphere)
+    {
+        for (int i = 0; i < sphere.VertexCount; i++)
+        {
+            var vertex = sphere.Vertices[i];
+            mesh.Vertices[i * 3 + 0] = vertex.X;
+            mesh.Vertices[i * 3 + 1] = vertex.Y;
+            mesh.Vertices[i * 3 + 2] = vertex.Z;
+        }
+
+        Raylib.UpdateMeshBuffer(mesh, 0, mesh.Vertices, mesh.VertexCount * 3 * sizeof(float), 0);
     }
 
     private unsafe void DrawMeshWireframe(Mesh mesh, Color color)

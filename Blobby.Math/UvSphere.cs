@@ -12,9 +12,15 @@ public class UvSphere
 
     public int TriangleCount => Indices.Length / 3;
 
+    private readonly Vec3D[] _originalVertices; 
+
+    private readonly Random _random;
+
     private UvSphere(Vec3D[] vertices, int[] indices)
     {
-        Vertices = vertices;
+        _random = new Random();
+        _originalVertices = vertices;
+        Vertices = (Vec3D[])vertices.Clone(); 
         Indices = indices;
     }
 
@@ -27,6 +33,25 @@ public class UvSphere
         var indices = CreateIndices(numLatitudes, numLongitudes);
 
         return new UvSphere(vertices.ToArray(), indices);
+    }
+
+    public void ApplyRandomNoise(float noiseAmount)
+    {
+        for (int i = 0; i < _originalVertices.Length; i++)
+        {
+            var baseVertex = _originalVertices[i];
+
+            var length = MathF.Sqrt(baseVertex.X * baseVertex.X + baseVertex.Y * baseVertex.Y + baseVertex.Z * baseVertex.Z);
+            var normal = new Vec3D(baseVertex.X / length, baseVertex.Y / length, baseVertex.Z / length);
+
+            var displacement = (float)(_random.NextDouble() * 2 - 1) * noiseAmount;
+
+            Vertices[i] = new Vec3D(
+                baseVertex.X + normal.X * displacement,
+                baseVertex.Y + normal.Y * displacement,
+                baseVertex.Z + normal.Z * displacement
+            );
+        }
     }
 
     private static IEnumerable<Vec3D> CreateVertices(int numLatitudes, int numLongitudes, float radius)
